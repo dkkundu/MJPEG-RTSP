@@ -1,20 +1,11 @@
 version: '3.8'
-
 services:
-  live-streaming:
+  live-streaming-mjpeg:
     build: .
     ports:
       - "5000:5000"
+    volumes:
+      - .:/app
     environment:
-      - FLASK_APP=app.py
-      - FLASK_ENV=development
-    volumes:
-      - ./app:/app  # Assuming your Flask app code is in a directory named 'app'
-
-  gunicorn:
-    build: .
-    command: gunicorn -w 4 -b 0.0.0.0:5000 app:app
-    volumes:
-      - ./app:/app  # Mount your Flask app code
-    depends_on:
-      -  live-streaming  # Ensure the Flask app container is running before starting Gunicorn
+      FLASK_APP: server.py
+      FLASK_ENV: development
