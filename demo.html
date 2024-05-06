@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RTSP to MJPEG Viewer</title>
+</head>
+<body>
+    <img id="mjpeg-stream" />
+    <script>
+        // Update the img src to the MJPEG stream endpoint
+        document.getElementById('mjpeg-stream').src = 'http://192.168.68.176:5000/video-streaming/4/10001/';
+    </script>
+</body>
+</html>
