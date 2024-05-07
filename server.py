@@ -37,20 +37,23 @@ def call_external_api(company_id, device_id):
 
 
 def generate_mjpeg(rtsp_url):
-    cap = cv2.VideoCapture(rtsp_url)
+    try:
+        cap = cv2.VideoCapture(rtsp_url)
 
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
-        # Encode the frame in JPEG format
-        ret, jpeg = cv2.imencode('.jpg', frame)
-        if not ret:
-            continue
-        # Yield the JPEG frame
-        yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n')
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+            # Encode the frame in JPEG format
+            ret, jpeg = cv2.imencode('.jpg', frame)
+            if not ret:
+                continue
+            # Yield the JPEG frame
+            yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n')
 
-    cap.release()
+        cap.release()
+    except Exception as e:
+        print("Error occurred:", e)
 
 @app.route('/video-streaming/<path:company_id>/<path:device_id>/')
 def video_feed(company_id, device_id):

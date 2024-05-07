@@ -1,9 +1,9 @@
 version: '3.8'
 services:
-  live-streaming-mjpeg:
+  python_server:
     build: .
     command: >
-      sh -c 'gunicorn -b 0.0.0.0:5000 server:app'
+      sh -c 'python server.py'
     ports:
       - "5000:5000"
     volumes:
@@ -11,3 +11,6 @@ services:
     environment:
       FLASK_APP: server.py
       FLASK_ENV: development
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
